@@ -1,0 +1,86 @@
+//User collection:
+
+{
+  "_id": ObjectId("uniqueIdHere"),
+  "full_name": <string>"John Doe",
+  "email": <string>"john.doe@example.com",
+  "status": <string>"online",
+  "last_active": ISODate("2024-04-05T10:00:00Z")
+}
+
+//Project Collection:
+{
+  "_id": ObjectId,
+  "name": "Project Name",
+   "key": ObjectId("userIdHere"),
+  "members": [
+    ObjectId("memberId1Here"),
+    ObjectId("memberId2Here"),
+    ObjectId("memberId3Here")
+  ],
+  "created_at": ISODate("2024-04-05T08:00:00Z"),
+  "last_updated_at": ISODate("2024-04-05T08:30:00Z")
+}
+
+//Task Collection
+{
+  "_id": ObjectId("uniqueIdHere"),
+  "name": "Task Title",
+  "description": "Task Description",
+  "from_project_id": ObjectId("projectIdHere"), // 这里存储了对应的Project的ID
+  "assignee": ObjectId("userIdHere"),
+  "reporter": ObjectId("userIdHere"),
+  "priority": "<String>/high/low etc.",
+  "start_date": ISODate("2024-04-05T09:00:00Z"),
+  "due_date": ISODate("2024-04-10T09:00:00Z"),
+  "status": "<String>in_progress",
+  "activity": [
+    {
+      "timestamp": ISODate("2024-04-05T09:15:00Z"),
+      "comment": "<String>Initial task setup"
+    },
+    "actions": [
+    {
+      "timestamp": ISODate("2024-04-07T11:30:00Z"),
+      "action": "Created branch",
+    },
+    {
+      "timestamp": ISODate("2024-04-08T14:00:00Z"),
+      "action": "Attached file",
+      "comment": "File attached for reference"
+    }
+  ]
+}
+
+
+//Board Collection:
+{
+  "_id": ObjectId("uniqueIdHere"),
+  "name": "Board Name",
+  "columns": [
+    {
+      "name": "To Do",
+      "tasks": [
+        ObjectId("taskId1Here"),
+        ObjectId("taskId2Here"),
+        ObjectId("taskId3Here")
+      ]
+    },
+    {
+      "name": "In Progress",
+      "tasks": [
+        ObjectId("taskId4Here"),
+        ObjectId("taskId5Here")
+      ]
+    },
+    {
+      "name": "Done",
+      "tasks": [
+        ObjectId("taskId6Here")
+      ]
+    }
+  ]
+}
+
+
+
