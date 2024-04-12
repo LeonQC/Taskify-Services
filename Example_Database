@@ -1,53 +1,72 @@
 //User collection:
 
 {
-  "_id": ObjectId("uniqueIdHere"),
-  "full_name": <string>"John Doe",
+ "_id": ObjectId("uniqueIdHere"),
+ "full_name": <string>"John Doe",
+ "public_name": <string>
+ "Initials": <string>"JD”
   "email": <string>"john.doe@example.com",
   "status": <string>"online",
-  "last_active": ISODate("2024-04-05T10:00:00Z")
+  "last_active": "2024-04-05T10:00:00"
+
 }
 
 //Project Collection:
 {
-  "_id": ObjectId,
+   "_id": ObjectId,
   "name": "Project Name",
-   "key": ObjectId("userIdHere"),
-  "members": [
-    ObjectId("memberId1Here"),
-    ObjectId("memberId2Here"),
-    ObjectId("memberId3Here")
-  ],
-  "created_at": ISODate("2024-04-05T08:00:00Z"),
-  "last_updated_at": ISODate("2024-04-05T08:30:00Z")
+   "key": "Project Initials",
+   "type": "Team-managed business",
+  “lead”: ObjectId("UserID")
+  "last_updated_at": "2024-04-05T08:30:00Z"
 }
 
 //Task Collection
+Option 1 : Action 和 Activity嵌入Task
 {
   "_id": ObjectId("uniqueIdHere"),
   "name": "Task Title",
   "description": "Task Description",
-  "from_project_id": ObjectId("projectIdHere"), // 这里存储了对应的Project的ID
+  "total_order_id": ObjectId("projectIdHere"), // 这里存储了总共第几个task的ID
   "assignee": ObjectId("userIdHere"),
   "reporter": ObjectId("userIdHere"),
   "priority": "<String>/high/low etc.",
-  "start_date": ISODate("2024-04-05T09:00:00Z"),
-  "due_date": ISODate("2024-04-10T09:00:00Z"),
-  "status": "<String>in_progress",
+  "start_date": "2024-04-05T09:00:00",
+  "due_date": "2024-04-10T09:00:00",
+  "status_id": "status_id",
   "activity": [
+{
+      "comments": [
     {
-      "timestamp": ISODate("2024-04-05T09:15:00Z"),
-      "comment": "<String>Initial task setup"
+      "_id": ObjectId("uniqueIdHere")
+      "timestamp": "2024-04-05T09:15:00",
+      "user_id": “userId”
+      "Initials": <string>"JD”
+      "comment": "String"
     },
-    "actions": [
+      "history": [
+        {
+          "_id": ObjectId("uniqueIdHere")
+          "timestamp": "2024-04-05T09:30:00",
+          "user": "userIdHere",
+          "Initials": <string>"JD”
+          "event": "Task created"
+        }
+      ],
+"actions": [
     {
-      "timestamp": ISODate("2024-04-07T11:30:00Z"),
-      "action": "Created branch",
+     "link issue": [
+        {
+      "_id": ObjectId("uniqueIdHere")
+      "timestamp": "2024-04-07T11:30:00Z",
+      "link_id": ObjectId("total_order_id")//一次链接一个ID
+
     },
-    {
-      "timestamp": ISODate("2024-04-08T14:00:00Z"),
-      "action": "Attached file",
-      "comment": "File attached for reference"
+ "attached file": [
+        {
+       "_id": ObjectId("uniqueIdHere")
+      "timestamp": "2024-04-08T14:00:00",
+      "file_name": "example.txt" //文件就存进MongoDB了，一次attach一个
     }
   ]
 }
@@ -57,6 +76,7 @@
 {
   "_id": ObjectId("uniqueIdHere"),
   "name": "Board Name",
+  "members": [ObjectId("userId1"), ObjectId("userId2")], // 看板成员的用户ID列表
   "columns": [
     {
       "name": "To Do",
@@ -82,5 +102,23 @@
   ]
 }
 
+Access Collection:
+{
+    "user_id": ObjectId, 
+    "user_name": "JohnDoe", 
+    "Initials": <string>"JD”
+    "email": "johndoe@example.com", 
+    "role": "admin", 
+    "action": "edit", 
+    "timestamp": "2024-04-12T08:30:00"
+}
+
+Status Collection:
+{
+  "_id": ObjectId("uniqueIdHere"),
+  "name": "In Progress",
+  "description": "Tasks currently being worked on",
+  "type": "column_status"
+}
 
 
