@@ -108,7 +108,8 @@ Access Collection:
     "user_name": "JohnDoe", 
     "Initials": <string>"JD”
     "email": "johndoe@example.com", 
-    "role": "admin", 
+   "project_access": “role”,//project admin, editor, etc.
+    "user_access": "role", //user admin
     "action": "edit", 
     "timestamp": "2024-04-12T08:30:00"
 }
