@@ -10,7 +10,6 @@ Admin Features:
                 Host: localhost:8080
                 Content-Type: application/json
                 {
-		  "id": ObjectId,
 		  "name": "Project Name",
 		   "key": "Project Initials",
 		   "type": "Team-managed business",
@@ -30,8 +29,34 @@ Admin Features:
                 }
 	Project setting:
  	    PUT loclalhost:8080/API/v1/projects?id=x&name=y&key=a&type=b&lead=c
+            Request:
+	    	POST /API/v1/projects?id=x&name=y&key=a&type=b&lead=c HTTP/1.1
+                Host: localhost:8080
+		Content-Type: application/json
+		{
+		    "id": "x",
+		    "name": "y",
+		    "key": "a",
+		    "type": "b",
+		    "lead": "c"
+		}
+	     Response:
+		{
+		    "message": "Project with ID 'x' updated successfully"
+		}
       	Last Issue Update:
        	    PATCH loclalhost:8080/API/v1/projects/id/lastIssueUpdates
+	    Request:
+     		PATCH localhost:8080/API/v1/projects/id/lastIssueUpdates HTTP/1.1
+                Host: localhost:8080
+		Content-Type: application/json
+  		{
+		    "lastUpdatedIssue": "description goes here"
+		}
+  	    Response:
+       		{
+		    "message": "Last updated issue for project with ID 'id' updated successfully"
+		}
         Search Project:
             GET localhost:8080/API/v1/projects?id
 	    response:
@@ -47,7 +72,7 @@ Admin Features:
         Delete Project:
             Delete localhost:8080/API/v1/projects?id
 	    Request:
-		DELETE /API/v1/projects?id=项目ID HTTP/1.1
+		DELETE /API/v1/projects?id=projectID HTTP/1.1
 		Host: localhost:8080
 		Content-Type: application/json
 		Authorization: Bearer your_access_token
@@ -78,21 +103,17 @@ Admin Features:
                         }
                     ]
                 }
-    Product Access:
-    	Product Database:
-     	    localhost:8080/API/v1/access
-            [Post, Put, Get, Delete]
- 	PUT localhost:8080/API/v1/accesses?User_id=1&useradmin=2&productadmin=3
     User Management:
         Users Database:
             localhost:8080/API/v1/User/id/1
             [Post, Put, Get, Delete]
             localhost:8080/API/v1/Users
         Invite User: (send user invitation by email)
-            POST localhost:8080/API/v1/boards/id/members
+            POST localhost:8080/API/v1/invitations?email=example@example.com&projectId=123
 	    Request:
      		{
-		  "email": "example@ex.com"
+		  "email": "example@example.com"，
+    		  "projectId": 123
 		}
      	    Response:
 	  	{
@@ -105,7 +126,7 @@ Admin Features:
 		  "message": "User with the provided email not found."
 		}
         List User Table:
-            GET localhost:8080/API/v1/boards/board_Id/memebers
+            GET localhost:8080/API/v1/Users
      	    Response:
 		{
 		    "status": "success",
@@ -113,35 +134,27 @@ Admin Features:
 		        {
 		            "_id": "userId1",
 		            "name": "User Name 1",
-		            "email": "user1@example.com"
+		            "email": "user1@example.com",
+	      		    "status": "Active",
+	     		    "Last Active Time": "datetime",
+	    		    "User current access": "ORG Admin",
 		        },
 		        {
 		            "_id": "userId2",
 		            "name": "User Name 2",
 		            "email": "user2@example.com"
+	      		    "status": "Inactive",
+	     		    "Last Active Time": "datetime",
+	    		    "User current access": "User Access Admin",
 		        }
 		    ]
 		}
-        User status:
-            GET localhost:8080/API/v1/Users/Userid?status
-     	    Response:
-		{
-	    		"status": "online"
-		}
-        Update User Last active:
-            GET localhost:8080/API/v1/Users/UserId?lastActive=datetime
-     	    Response:
-		{
-	    		"last_active": "datetime"
-		}
-
             PATCH localhost:8080/API/v1/Users/UserId?LastActive=datetime
 	    Request:
      		PATCH /API/v1/Users/{UserId} HTTP/1.1
 		Host: localhost:8080
 		Content-Type: application/json
 		Authorization: Bearer your_access_token
-		
 		{
 		    "last_active": "2024-04-12T15:00:00Z"
 		}
@@ -162,6 +175,12 @@ Admin Features:
 		    "status": "online",
 		    "last_active": "2024-04-12T15:00:00Z"
 		}
+      Project Access:
+    	Project Database:
+     	    localhost:8080/API/v1/access
+            [Post, Put, Get, Delete]
+	    Grant Access:
+	    	PUT localhost:8080/API/v1/accesses?User_id=1&useradmin=2&productadmin=3	
     Task Board Management:
         Tasks Database:
             localhost:8080/API/v1/task/task_id/1
@@ -221,7 +240,7 @@ Admin Features:
 		  }
 		}
         Task Filter:
-            GET localhost:8080/API/v1/tasks?assignee=userId
+            GET localhost:8080/API/v1/tasks?text=example
 	    Response:
      		[
 		  {
@@ -277,19 +296,18 @@ Admin Features:
        			"assignee": "userIdHere"
 		}
         Status Column Data:
-            GET localhost:8080/API/v1/boards/board_id/tasks/key
+            GET localhost:8080/API/v1/Columns/column_id/tasks/key
 	    Response:
      		{
        			"key": "KEY-11"
 		}
         Status Rename:
-            PATCH localhost:8080/API/v1/tasks?name=name
+            PATCH localhost:8080/API/v1/Columns?name=name
 	    Request:
      		PATCH /API/v1/tasks/taskId HTTP/1.1
 		Host: localhost:8080
 		Content-Type: application/json
 		Authorization: Bearer your_access_token
-		
 		{
 		    "name": "New Task Name"
 		}
@@ -328,19 +346,27 @@ Admin Features:
 		    "status": "success",
 		    "msg": "Task deleted successfully."
 		}
+  
+Task Management:
 	Task details:
- 	    Get localhost:8080/API/v1/tasks/Title/Assignee/DueDate/TaskNumber?priority=high/medium/low
+ 	    Right side:
+ 	    Get localhost:8080/API/v1/tasks/Title/Assignee/Reporter/label/Timetracking/Startdate/Category/DueDate/TaskNumber/Priority
       	    Response:
 		    {
 		        "_id": "taskId1",
 		        "title": "Project Launch",
 		        "assignee": "LeonQC",
+	  		"reporter": "Zhiyuan Guo",
+     			"label": "sde tasks",
+			"timetracking": "2024-04-10",
+   			"startdate"： "2024-04-10"，
+      			"category": "emergency",
 		        "dueDate": "2024-04-10",
 		        "taskNumber": "123",
 		        "priority": "high",
 		        "description": "Details about the task..."
 		    }
-      	    PATCH localhost:8080/API/v1/tasks/task_id/Assignee/assignee_id?DueDate=datetime&TaskNumber=18&priority=high/medium/low
+      	    PATCH localhost:8080/API/v1/tasks/task_id/Title/Assignee/Reporter/label/Timetracking/Startdate/Category/DueDate/TaskNumber/Priority
 	    Request:
 		PATCH /API/v1/tasks/task_id HTTP/1.1
 		Host: localhost:8080
@@ -348,23 +374,40 @@ Admin Features:
 		Authorization: Bearer your_access_token
 		
 		{
-		    "assignee_id": "assignee_id",
-		    "dueDate": "2024-04-10T00:00:00Z",
-		    "taskNumber": 18,
-		    "priority": "high"
+	   "_		id": "taskId1",
+		        "title": "Project Launch",
+		        "assignee": "LeonQC",
+	  		"reporter": "Zhiyuan Guo",
+     			"label": "sde tasks",
+			"timetracking": "2024-04-10",
+   			"startdate"： "2024-04-10"，
+      			"category": "emergency",
+		        "dueDate": "2024-04-10",
+		        "taskNumber": "123",
+		        "priority": "high",
+		        "description": "Details about the task..."
 		}
      	    Response:
 	  	{
 		    "status": "success",
 		    "msg": "Task updated successfully.",
 		    "task": {
-		        "id": "task_id",
-		        "assignee_id": "assignee_id",
-		        "dueDate": "2024-04-10T00:00:00Z",
-		        "taskNumber": 18,
-		        "priority": "high"
+   "_			id": "taskId1",
+		        "title": "Project Launch",
+		        "assignee": "LeonQC",
+	  		"reporter": "Zhiyuan Guo",
+     			"label": "sde tasks",
+			"timetracking": "2024-04-10",
+   			"startdate"： "2024-04-10"，
+      			"category": "emergency",
+		        "dueDate": "2024-04-10",
+		        "taskNumber": "123",
+		        "priority": "high",
+		        "description": "Details about the task..."
 		    }
 		}
+  	    Left side:
+       	    Get localhost:8080/API/v1/tasks/attachment/childissue/linkissue
 	Total number of tasks in this column:
  	    GET localhost:8080/API/v1/boards/board_Id/columns/name?count
       	    Response:
@@ -384,9 +427,9 @@ Admin Features:
 		  {
 		  "name": "Task Title",
 		  "description": "Task Description",
-		  "total_order_id": "projectIdHere",  // This should be the actual project ID
-		  "assignee": "userIdHere",           // This should be the actual user ID of the assignee
-		  "reporter": "userIdHere",           // This should be the actual user ID of the reporter
+		  "total_order_id": "projectIdHere",  
+		  "assignee": "userIdHere",          
+		  "reporter": "userIdHere",           
 		  "priority": "high",
 		  "start_date": "2024-04-05T09:00:00Z",
 		  "due_date": "2024-04-10T09:00:00Z",
