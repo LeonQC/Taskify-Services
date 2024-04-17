@@ -180,14 +180,38 @@ Admin Features:
      	    localhost:8080/API/v1/access
             [Post, Put, Get, Delete]
 	    Grant Access:
-	    	PUT localhost:8080/API/v1/accesses?User_id=1&useradmin=2&productadmin=3	
+	    PUT localhost:8080/API/v1/accesses?User_id=1&User_role
+      	    Request:
+		PUT /API/v1/accesses?User_id=1&User_role HTTP/1.1
+		Host: localhost:8080
+		Content-Type: application/json
+		
+		{
+		  "roles": [
+		    "Default",
+		    "UserAdmin",
+		    "ProjectAdmin"
+		  ]
+		}
+  	    Response:
+       		{
+		  "status": "success",
+		  "data": {
+		    "userId": 1,
+		    "roles": [
+	    	    "Default",
+		    "UserAdmin",
+		    "ProjectAdmin"
+		    ]
+		  }
+		}
     Task Board Management:
         Tasks Database:
             localhost:8080/API/v1/task/task_id/1
             [Post, Put, Get, Delete]
             localhost:8080/API/v1/tasks
-        Task Search:
-	    GET localhost:8080/API/v1/tasks?task_id=1
+        Task Filter:
+	    GET localhost:8080/API/v1/tasks?User=UserId
      	    Response:
 		{
 		  "_id": "uniqueIdHere",
@@ -239,7 +263,7 @@ Admin Features:
 		    ]
 		  }
 		}
-        Task Filter:
+        Task Search:
             GET localhost:8080/API/v1/tasks?text=example
 	    Response:
      		[
@@ -408,6 +432,33 @@ Task Management:
 		}
   	    Left side:
        	    Get localhost:8080/API/v1/tasks/attachment/childissue/linkissue
+	    Response:
+	     	    {
+			  "status": "success",
+			  "data": {
+			    "attachmentId": "123456789",
+			    "fileName": "example_file.pdf",
+			    "fileSize": 1024,
+			    "fileType": "application/pdf",
+			    "childTaskId": "987654321",
+			    "childTaskTitle": "Child Task",
+			    "linkTaskId": "456789123",
+			    "linkTaskTitle": "Linked Task"
+			  }
+			}
+   	    PUT localhost:8080/API/v1/tasks/attachment/childissue/linkissue
+		Request:
+	  		PATCH /API/v1/tasks/{taskId} HTTP/1.1
+			Host: localhost:8080
+			Content-Type: application/json
+	  		{
+			  "attachmentId": "123456789",
+			  "fileName": "updated_file.pdf",
+			  "fileSize": 2048,
+			  "fileType": "application/pdf",
+			  "childTaskId": "987654321",
+			  "linkTaskId": "456789123"
+			}
 	Total number of tasks in this column:
  	    GET localhost:8080/API/v1/boards/board_Id/columns/name?count
       	    Response:
