@@ -185,7 +185,6 @@ Admin Features:
 		PUT /API/v1/accesses?User_id=1&User_role HTTP/1.1
 		Host: localhost:8080
 		Content-Type: application/json
-		
 		{
 		  "roles": [
 		    "Default",
@@ -325,6 +324,37 @@ Admin Features:
      		{
        			"key": "KEY-11"
 		}
+  	Total number of tasks in this column:
+ 	    GET localhost:8080/API/v1/boards/board_Id/columns/name?count
+      	    Response:
+		{
+		    "status": "success",
+		    "column_name": "column_name",
+		    "task_count": 10
+		}
+  	Task Moving to another Column
+   	    PATCH localhost:8080/API/v1/Columns/column_id/tasks/task_id
+	    Request:
+     	    PATCH /API/v1/Columns/column_id/tasks/task_id
+		Content-Type: application/json
+		{
+		  "columnId": "new_column_id"
+		}
+  	    Response:
+       	    HTTP/1.1 200 OK
+	    Content-Type: application/json
+		{
+		  "id": "task_id",
+		  "title": "Task Name",
+		  "description": "Task Description",
+		  "columnId": "new_column_id",
+		}
+	    or
+     	    HTTP/1.1 404 Not Found
+	    Content-Type: application/json
+		{
+		  "error": "Task not found"
+		}
         Status Rename:
             PATCH localhost:8080/API/v1/Columns?name=name
 	    Request:
@@ -396,7 +426,6 @@ Task Management:
 		Host: localhost:8080
 		Content-Type: application/json
 		Authorization: Bearer your_access_token
-		
 		{
 	   "_		id": "taskId1",
 		        "title": "Project Launch",
@@ -459,14 +488,6 @@ Task Management:
 			  "childTaskId": "987654321",
 			  "linkTaskId": "456789123"
 			}
-	Total number of tasks in this column:
- 	    GET localhost:8080/API/v1/boards/board_Id/columns/name?count
-      	    Response:
-		{
-		    "status": "success",
-		    "column_name": "column_name",
-		    "task_count": 10
-		}
     Task Content:
         Create new task:
             POST localhost:8080/API/v1/tasks
