@@ -18,7 +18,7 @@ docker pull mongodb/mongodb-community-server:latest
 
 $ docker images
 
-![docker mongo4](file:///C:/Users/大BOSS晖爷/Desktop/docker-mongo4.png)
+![1](docker-mongo1.png)
 
 
 ### **2.将映像作为 container 运行**
@@ -74,7 +74,7 @@ db.runCommand(
 
 此命令的结果返回一个描述 mongod 部署的文档：
 
-![微信图片 20240507230817](file:///C:/Users/大BOSS晖爷/Desktop/微信图片_20240507230817.png)
+![2](2.png)
 
 此时应该能够看到名为 my-mongo-container 的 MongoDB 容器正在运行。
 
