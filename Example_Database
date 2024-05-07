@@ -1,5 +1,4 @@
 //User collection:
-
 {
  "_id": ObjectId("uniqueIdHere"),
  "full_name": <string>"John Doe",
@@ -7,9 +6,32 @@
  "Initials": <string>"JD”
   "email": <string>"john.doe@example.com",
   "status": <string>"online",
-  "last_active": "2024-04-05T10:00:00"
-
+  "last_active":  "ID_UserActionInBoard_the newest one"
 }
+
+//UserActionInBoard
+{
+  "_id": ObjectId,
+  "user_id":”id”,
+  "action": <string>,
+  "time": "2024-04-05T10:00:00"
+}
+
+//Access Role Collection
+{
+    “_id”,
+    "project_access_role": “project admin, editor, etc.”,
+    "user_acces_roles": "user admin, user, etc.",
+}
+
+//User_Project_Access Collection
+{
+  “Id”: id,
+  "user_id": ObjectId("uniqueIdHere"),
+  "project_id": id,
+  “Access_information”: “access collection refer”,
+}
+
 
 //Project Collection:
 {
@@ -22,45 +44,40 @@
 }
 
 //Task Collection
-Option 1 : Action 和 Activity嵌入Task
 {
-  "_id": ObjectId("uniqueIdHere"),
+  "_id": ObjectId,
   "name": "Task Title",
   "description": "Task Description",
-  "total_order_id": ObjectId("projectIdHere"), // 这里存储了总共第几个task的ID
+  "total_order_id": ObjectId("projectIdHere"),
   "assignee": ObjectId("userIdHere"),
   "reporter": ObjectId("userIdHere"),
   "priority": "<String>/high/low etc.",
   "start_date": "2024-04-05T09:00:00",
   "due_date": "2024-04-10T09:00:00",
-  "status_id": "status_id",
+  "column_id": "_id",
   "activity": [
 {
       "comments": [
     {
-      "_id": ObjectId("uniqueIdHere")
-      "timestamp": "2024-04-05T09:15:00",
-      "user_id": “userId”
-      "Initials": <string>"JD”
-      "comment": "String"
+      "commentId":"postId"
     },
+  ],
       "history": [
         {
-          "_id": ObjectId("uniqueIdHere")
-          "timestamp": "2024-04-05T09:30:00",
-          "user": "userIdHere",
-          "Initials": <string>"JD”
-          "event": "Task created"
-        }
+          "historyId": itemId_id
+                }
       ],
-"actions": [
+  },
+
+    "actions": [
     {
      "link issue": [
         {
       "_id": ObjectId("uniqueIdHere")
       "timestamp": "2024-04-07T11:30:00Z",
       "link_id": ObjectId("total_order_id")//一次链接一个ID
-
+ },
+  ],
     },
  "attached file": [
         {
@@ -72,54 +89,50 @@ Option 1 : Action 和 Activity嵌入Task
 }
 
 
+
 //Board Collection:
 {
   "_id": ObjectId("uniqueIdHere"),
   "name": "Board Name",
-  "members": [ObjectId("userId1"), ObjectId("userId2")], // 看板成员的用户ID列表
+  "members": [ObjectId("userId1"), ObjectId("userId2")], 
   "columns": [
     {
-      "name": "To Do",
-      "tasks": [
-        ObjectId("taskId1Here"),
-        ObjectId("taskId2Here"),
-        ObjectId("taskId3Here")
-      ]
-    },
-    {
-      "name": "In Progress",
-      "tasks": [
-        ObjectId("taskId4Here"),
-        ObjectId("taskId5Here")
-      ]
-    },
-    {
-      "name": "Done",
-      "tasks": [
-        ObjectId("taskId6Here")
-      ]
-    }
-  ]
+      "columns_ID": id,
+      "tasks_ID":id
+       ]
+}
 }
 
-Access Collection:
+Column Collection
 {
-    "user_id": ObjectId, 
-    "user_name": "JohnDoe", 
-    "Initials": <string>"JD”
-    "email": "johndoe@example.com", 
-   "project_access": “role”,//project admin, editor, etc.
-    "user_access": "role", //user admin
-    "action": "edit", 
-    "timestamp": "2024-04-12T08:30:00"
+  "_id": ObjectId,
+  "name": "Name",
 }
 
-Status Collection:
+Board_Column collection
 {
-  "_id": ObjectId("uniqueIdHere"),
+  "_id": ObjectId,
+  "column_id": ObjectId1, id2…
   "name": "In Progress",
-  "description": "Tasks currently being worked on",
   "type": "column_status"
+ "timestamp": "2024-04-12T08:30:00"
 }
 
+
+Comments Collection:
+{
+  "postId": "<Post_ObjectId>",
+  "userId": "<User_ObjectId>",
+  "content": "String",
+  "createdAt": "2024-05-08T12:00:00"
+}
+
+History Collection
+{
+   "itemId": "<Item_ObjectId>",
+  "fromTask_id": "Task_id",
+  "userId": "<User_ObjectId>",
+ "action": "edit",
+  "timestamp": "2024-04-12T08:30:00"
+}
 
